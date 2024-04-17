@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Card.css';
 import more from './more.png';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,36 @@ import { supabase } from '../client'; // Import the Supabase client
 
 const Card = (props) => {
     const [count, setCount] = useState(0);
+    const [iconUrl, setIconUrl] = useState(null);
+
+    useEffect(() => {
+        // Fetch the transformed image URL from Supabase Storage
+        const fetchIconUrl = async () => {
+            if (props.icon) {
+                try {
+                    const { data, error } = await supabase
+                        .storage
+                        .from('iconBuild') // Replace 'iconBuild' with your actual bucket name
+                        .getPublicUrl(props.icon, {
+                            transform: {
+                                width: 100, // Adjust width as needed
+                                height: 100, // Adjust height as needed
+                            },
+                        });
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    setIconUrl(data.publicUrl);
+                } catch (error) {
+                    console.error('Error fetching icon URL:', error.message);
+                }
+            }
+        };
+
+        fetchIconUrl();
+    }, [props.icon]);
 
     const updateCount = async () => {
         try {
@@ -30,9 +60,16 @@ const Card = (props) => {
             </Link>
             <h2 className="title">{props.title}</h2>
             <h3 className="author">{"by " + props.author}</h3>
-            <p className="description">{props.description}</p>
+            {iconUrl && ( // Check if icon URL is available
+                <img className="icon" src={iconUrl} alt="character icon" />
+            )}
+            <div className="stats">
+                <p>Lvl: {props.LVL}</p>
+                <p>Attack: {props.ATK}</p>
+                <p>Defense: {props.DEF}</p>
+            </div>
             <button className="betButton" onClick={updateCount}>
-                👍 Bet Count: {count}
+                👍 vote Count: {count}
             </button>
         </div>
     );

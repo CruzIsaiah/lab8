@@ -26,7 +26,17 @@ const ReadPosts = () => {
             {
                 posts && posts.length > 0 ? // Check if posts exist and are not empty
                 posts.map((post, index) => // Map through posts array
-                    <Card key={index} id={post.id} title={post.title} author={post.author} description={post.description} /> // Render Card component for each post
+                    <Card 
+                        key={index} 
+                        id={post.id} 
+                        title={post.title} 
+                        author={post.author} 
+                        description={post.description} 
+                        characterImage={post.characterImage} 
+                        LVL={post.LVL}
+                        ATK={post.ATK}
+                        DEF={post.DEF}
+                    /> // Render Card component for each post
                 ) : <h2>{'No Challenges Yet 😞'}</h2> // Render message if no posts
             }
         </div>

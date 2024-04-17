@@ -52,9 +52,9 @@ const App = () => {
     <div className="App">
 
       <div className="header">
-        <h1>👍 Bet 1.0</h1>
-        <Link to="/"><button className="headerBtn"> Explore Challenges 🔍  </button></Link>
-        <Link to="/new"><button className="headerBtn"> Submit Challenge 🏆 </button></Link>
+        <h1>Super Character Maker</h1>
+        <Link to="/"><button className="headerBtn"> Explore Roster 🔍  </button></Link>
+        <Link to="/new"><button className="headerBtn"> Create Character 👷‍♂️ </button></Link>
       </div>
         {element}
     </div>
